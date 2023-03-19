@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDD GO-DRIVE</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<!-- Importar jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Importar Popper.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<!-- Importar Bootstrap.js -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body class="p-3 mb-2 bg-secondary text-white">
+    <main>
+        <div class="contenedor_todo" id="contenedor">
+            <div class="caja_trasera">
+                <div class="caja_traseraLogin">
+                    <h3>¿Ya tienes una cuenta?</h3>
+                    <p>Inicia sesión para entrar la pagina</p>
+                    <button id="btn_login">Iniciar Sesión</button>
+                </div>
+                <div class="caja_traseraRegister">
+                    <h3>¿Aun no tienes una cuenta?</h3>
+                    <p>Registrate para entrar la pagina</p>
+                    <button id="btn_register">Registrarse</button>
+                </div>
+            </div> 
+            <div class="contenedor_login-register">
+                    <form id="login_form" class="formulario_login" method="post">
+                        <h2>Iniciar Sesión</h2>
+                        <input type="text" placeholder="Usuario" id="txtUsuario" required="">
+                        <input type="password" placeholder="Contraseña" id="txtPassword" required="">
+                        <button type="button" onclick=loginVerificar()>Ingresar</button>
+                    </form>
+                    <form id="register_form" class="formulario_register" method="post">
+                        <h2>Registrarse</h2>
+                        <input type="text" placeholder="Nombre Completo" id="nombre_register" required="">
+                        <input type="text" placeholder="Correo Electronico" id="correo_register" required="">
+                        <input type="text" placeholder="Usuario" id="usuario_register" required="">
+                        <input type="password" placeholder="Contraseña" id="pass_register" required="">
+                        <input type="password" placeholder="Confirmar Contraseña" id="passRegister2" required="">
+                        <button>Registrarse</button>
+                    </form>
+            </div> 
+        </div>
+        <div class="container mt-4" id="contenedor_admin" hidden>
+            <h1 class="text-center mb-4">Dashboard Admin</h1>
+    
+            <!-- Botones -->
+            <div class="row mb-4">
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary btn-block" id="btnMostrarAlumnos">Mostrar Alumnos</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary btn-block" id="btnMostrarArbol">Árbol de Estudiantes</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary btn-block" id="btnCargaMasiva" onclick=cargarMasiva()>Carga Masiva</button>
+                </div>
+            </div>
+    
+            <!-- Tabla -->
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Carnet</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaAlumnos">
+                            <!-- Aquí se mostrarán los alumnos -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+        </div>
+        <div class="container mt-4" id="contenedor_cargamasiva" hidden>
+            <h1 class="text-center mb-4">Dashboard Admin</h1>
+    
+            <!-- Botones -->
+            <div class="row mb-4">
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary btn-block" id="btnMostrarAlumnos">Mostrar Alumnos</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary btn-block" id="btnMostrarArbol">Árbol de Estudiantes</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary btn-block" id="btnCargaMasiva" onclick=cargarMasiva()>Carga Masiva</button>
+                </div>
+            </div>
+            <form id="formArchivo">
+                <div class="form-group">
+                    <label for="archivo">Seleccione un archivo JSON:</label>
+                    <input type="file" class="form-control-file" id="archivo" accept=".json" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Cargar archivo</button>
+            </form>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-/dXZ4rAj/jrLm9/oprVZoShjFpPnK+cl+hjJ7VNOG8CcO9QV7ZJFONaIpwNEdoWt" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js" integrity="sha512-VVof5f5/+NZ7IVJ9z1aZ7GCHfz0+Z7cA6/1bGwQkTpHWf/6jBpNvE8FJeWn6JxndzcrNbzHvI4cy58GBsLsaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
