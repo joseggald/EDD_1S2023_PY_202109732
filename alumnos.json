@@ -1,0 +1,22 @@
+{
+    "alumnos": [ 
+        {
+        "nombre": "Cristian Paels", 
+        "carnet": 201803877, 
+        "password": "ola123",
+        "Carpeta_Raiz":"/"
+        },
+        {
+        "nombre": "Cristian Suy", 
+        "carnet": 201700918, 
+        "password": "cris1234", 
+        "Carpeta_Raiz": "/" 
+        },
+        {
+        "nombre": "Leonardo Martinez", 
+        "carnet": 201780044, 
+        "password": "1e01234", 
+        "Carpeta_Raiz": "/" 
+        }
+    ]
+}
