@@ -104,32 +104,31 @@ class AvlTree{
         // console.log(nodes,connections);
         return nodes + connections;
     }
+    
     #treeGraphRecursive(current){
         if(current.left != null){
             this.#treeGraphRecursive(current.left);
             connections += `S_${current.item.carnet} -> S_${current.left.item.carnet};\n`;
         }
-        nodes += `S_${current.item.carnet}[label="${current.item.nombre}"];`
+        nodes += `S_${current.item.carnet}[label="${current.item.nombre}\\n ${current.item.carnet}\\n Altura:${this.getHeight(current)}"];`;
         if(current.right != null){
             this.#treeGraphRecursive(current.right);
             connections += `S_${current.item.carnet} -> S_${current.right.item.carnet};\n`;
         }
     }
     
-    //--------------------------------------------------------------------------
-    //                  RECORRIDO IN ORDER
-    //--------------------------------------------------------------------------
     inOrder(){
         let html = this.#inOrderRecursive(this.root);
         return html;
     }
+
     #inOrderRecursive(current){
         let row = "";
         if(current.left != null){
             row += this.#inOrderRecursive(current.left);
         }
         row +=`
-            <tr>
+            <tr class="bg-light text-dark">
                 <th>${current.item.carnet}</th>
                 <td>${current.item.nombre}</td>
                 <td>${current.item.password}</td>
@@ -140,9 +139,7 @@ class AvlTree{
         }
         return row;
     }
-    //--------------------------------------------------------------------------
-    //                  RECORRIDO PRE ORDER
-    //--------------------------------------------------------------------------
+
     preOrder(){
         let html = this.#preOrderRecursive(this.root);
         return html;
@@ -150,7 +147,7 @@ class AvlTree{
     #preOrderRecursive(current){
         let row = "";
         row +=`
-            <tr>
+            <tr class="bg-light text-dark">
                 <th>${current.item.carnet}</th>
                 <td>${current.item.nombre}</td>
                 <td>${current.item.password}</td>
@@ -172,6 +169,7 @@ class AvlTree{
         let html = this.#postOrderRecursive(this.root);
         return html;
     }
+
     #postOrderRecursive(current){
         let row = "";
         if(current.left != null){
@@ -181,7 +179,7 @@ class AvlTree{
             row += this.#inOrderRecursive(current.right);
         }
         row +=`
-            <tr>
+            <tr class="bg-light text-dark">
                 <th>${current.item.carnet}</th>
                 <td>${current.item.nombre}</td>
                 <td>${current.item.password}</td>

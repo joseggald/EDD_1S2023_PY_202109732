@@ -1,11 +1,35 @@
+let avlTree = null;
+let alumnosSistema=[];
+let actual;
+let tree =  new Tree();
 
-let avlTree = new AvlTree();
-function resetLocalStorage() {
-    localStorage.clear();
-    alert("Local Storage ha sido reseteado.");
+function crearCarpeta(e){
+    e.preventDefault();
+    let folderName =  $('#folderName').val();
+    let path =  $('#path').val();
+    tree.insert(folderName, path);
+    alert("Todo bien!")
+    $('#carpetas').html(tree.getHTML(path))
 }
-function cambiar_pagina_admin(){
-    window.location.href = "admin.html";
+
+function entrarCarpeta(folderName){
+    let path = $('#path').val();
+    let curretPath = path == '/'? path + folderName : path + "/"+ folderName;
+    console.log(curretPath)
+    $('#path').val(curretPath);
+    $('#carpetas').html(tree.getHTML(curretPath))
+}
+
+function retornarInicio(){
+    $('#path').val("/");
+    $('#carpetas').html(tree.getHTML("/"))
+}
+
+
+function showGraph(){
+    let url = 'https://quickchart.io/graphviz?graph=';
+    let body = `digraph G { ${tree.graph()} }`
+    $("#graph").attr("src", url + body);
 }
 
 function loginVerificar(){
@@ -13,30 +37,38 @@ function loginVerificar(){
     let pass = $('#txtPassword').val();
     let a=0;
     if(user === "admin" && pass === "admin"){  
-        alert("Se ha iniciado sesion correctamente!")       
+        alert("Se ha iniciado sesion correctamente!")  
+        actual=new Usuario(user,user);
+        localStorage.setItem("actual", JSON.stringify(actual))     
         cambiar_pagina_admin();
         a=1;
     }
-    
-    // Verificar si el usuario y la contraseña existen en el localStorage
-    let temp = localStorage.getItem("avlTree");
-    if (temp !== null) {
-        let avlTree = new AvlTree();
-        avlTree.root = JSON.parse(temp).root;
-        let students = avlTree.inOrder();
-        let found = students.find(student => student.carnet === user && student.password === pass);
-        
-        // Si se encontró el usuario y contraseña, redirigir a la página principal
-        if (found) {
-            alert("Se ha iniciado sesion correctamente!") 
+    let studentsLocalStorage = JSON.parse(localStorage.getItem("alumnosSistema"));
+    for(let i = 0; i < studentsLocalStorage.length; i++){ 
+        if (studentsLocalStorage[i].carnet == user && pass == studentsLocalStorage[i].password) {
+            alert("Se ha iniciado sesion correctamente!")    
             a=1;
+            actual=new Usuario(user,studentsLocalStorage[i].nombre);
+            localStorage.setItem("actual", JSON.stringify(actual))
         } 
-
     }
-    
     if(a==0){
         alert("Usuario y contraseña incorrecta!");
     }
+}
+
+function salir(){
+    window.location.href = "index.html";
+    localStorage.removeItem("actual")
+}
+
+function resetLocalStorage() {
+    localStorage.clear();
+    alert("Local Storage ha sido reseteado.");
+    window.location.href = "admin.html";
+}
+function cambiar_pagina_admin(){
+    window.location.href = "admin.html";
 }
 
 function loadStudentsForm(e) {
@@ -64,9 +96,13 @@ function loadStudentsForm(e) {
             )
             for(let i = 0; i < studentsArray.length; i++){
                 avlTree.insert(studentsArray[i]);
+                alumnosSistema.push(studentsArray[i])
+                console.log(alumnosSistema[i].carnet)
             }
+            console.log(alumnosSistema.length)
             // GUARDAR EN LOCAL STORAGE
             localStorage.setItem("avlTree", JSON.stringify(avlTree))
+            localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema))
             alert('Alumnos cargados con éxito!')
         }
     }catch(error){
@@ -77,16 +113,22 @@ function loadStudentsForm(e) {
 }
 
 function showLocalStudents(){
-    let temp = localStorage.getItem("avlTree")
-    avlTree.root = JSON.parse(temp).root;
-    $('#studentsTable tbody').html(
-        avlTree.inOrder()
-    )
+    try {
+        let temp = localStorage.getItem("avlTree")
+        avlTree = new AvlTree();  // Inicializa avlTree con un nuevo objeto AvlTree()
+        if (temp !== null) {
+            avlTree.root = JSON.parse(temp).root;
+            $('#studentsTable tbody').html(
+                avlTree.inOrder()
+            )
+        } else {
+            console.log("avlTree no está inicializado");
+        } 
+    } catch (error) {
+        console.log("error");
+    }
 }
 
-//--------------------------------------------------------------------------
-//                   FUNCIÓN PARA AGREGAR RECORRIDOS
-//--------------------------------------------------------------------------
 function showStudentsForm(e){
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -115,9 +157,6 @@ function showStudentsForm(e){
     }
 }
 
-//--------------------------------------------------------------------------
-//                   FUNCIÓN PARA MOSTRAR LA GRÁFICA
-//--------------------------------------------------------------------------
 function showAvlGraph(){
     let url = 'https://quickchart.io/graphviz?graph=';
     let body = `digraph G { ${avlTree.treeGraph()} }`

@@ -11,6 +11,12 @@ body{
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
+    font-family: "Libre Baskerville", serif;
+  
+}
+
+h1 {
+    font-size: 3em;
 }
 
 main{
