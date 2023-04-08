@@ -1,4 +1,5 @@
 
+
 let avlTree = null;
 let alumnosSistema=[];
 let actual;
@@ -51,13 +52,6 @@ function loginVerificar(){
             a=1;
             actual=new Usuario(user,studentsLocalStorage[i].nombre);
             localStorage.setItem("actual", JSON.stringify(actual))
-            const estudiante = obtenerEstudianteActual();
-            if (estudiante) {
-                const bienvenida = document.getElementById("bienvenida");
-                bienvenida.textContent = `Bienvenido de nuevo ${estudiante.nombre} con carnet ${estudiante.carnet}`;
-            } else {
-                console.log("No se encontró ningún estudiante en el Local Storage");
-            }
             window.location.href = "alum.html";
         } 
     }
@@ -65,6 +59,7 @@ function loginVerificar(){
         alert("Usuario y contraseña incorrecta!");
     }
 }
+
 function obtenerEstudianteActual() {
     const estudianteActual = localStorage.getItem("actual");
     if (estudianteActual) {
@@ -90,6 +85,7 @@ function cambiar_pagina_admin(){
 }
 
 function loadStudentsForm(e) {
+    
     e.preventDefault();
     const formData = new FormData(e.target);
     const form = Object.fromEntries(formData);
@@ -113,9 +109,10 @@ function loadStudentsForm(e) {
                 }).join('')
             )
             for(let i = 0; i < studentsArray.length; i++){
-                avlTree.insert(studentsArray[i])
-                alumnosSistema.push(studentsArray[i])
-                console.log(alumnosSistema[i].carnet)
+                let nuevo=new Estudiante(studentsArray[i].carnet, studentsArray[i].nombre, studentsArray[i].password,null,null)
+                avlTree.insert(nuevo)
+                alumnosSistema.push(nuevo)
+                console.log(nuevo)
             }
             console.log(alumnosSistema.length)
             localStorage.setItem("avlTree", JSON.stringify(avlTree))
@@ -126,13 +123,12 @@ function loadStudentsForm(e) {
         console.log(error);
         alert("Error en la inserción");
     }
-
 }
 
 function showLocalStudents(){
     try {
         let temp = localStorage.getItem("avlTree")
-        avlTree = new AvlTree();  // Inicializa avlTree con un nuevo objeto AvlTree()
+        avlTree = new AvlTree;
         if (temp !== null) {
             avlTree.root = JSON.parse(temp).root;
             $('#studentsTable tbody').html(
