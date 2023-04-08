@@ -1,10 +1,10 @@
 
 
+
 let avlTree = null;
 let alumnosSistema=[];
-let actual;
 let tree =  new Tree();
-
+var actual;
 function crearCarpeta(e){
     e.preventDefault();
     let folderName =  $('#folderName').val();
@@ -33,6 +33,12 @@ function showGraph(){
     let body = `digraph G { ${tree.graph()} }`
     $("#graph").attr("src", url + body);
 }
+window.onload = function() {
+    var txt = document.getElementById("valUser");
+    let act=JSON.parse(localStorage.getItem("actual"));
+    console.log(act)
+    txt.innerText = "Bienvenido de nuevo: "+act.nombre+ "  Carnet: "+ act.user;
+};
 
 function loginVerificar(){
     let user = $('#txtUsuario').val();
@@ -40,7 +46,8 @@ function loginVerificar(){
     let a=0;
     if(user === "admin" && pass === "admin"){  
         alert("Se ha iniciado sesion correctamente!")  
-        actual=new Usuario(user,user);
+        actual=new Usuario(user,user);  
+        console.log(actual)
         localStorage.setItem("actual", JSON.stringify(actual))     
         cambiar_pagina_admin();
         a=1;
@@ -48,10 +55,10 @@ function loginVerificar(){
     let studentsLocalStorage = JSON.parse(localStorage.getItem("alumnosSistema"));
     for(let i = 0; i < studentsLocalStorage.length; i++){ 
         if (studentsLocalStorage[i].carnet == user && pass == studentsLocalStorage[i].password) {
-            alert("Se ha iniciado sesion correctamente!")    
-            a=1;
             actual=new Usuario(user,studentsLocalStorage[i].nombre);
-            localStorage.setItem("actual", JSON.stringify(actual))
+            alert("Se ha iniciado sesion correctamente!")    
+            a=1;   
+            localStorage.setItem("actual", JSON.stringify(actual))           
             window.location.href = "alum.html";
         } 
     }
@@ -60,14 +67,7 @@ function loginVerificar(){
     }
 }
 
-function obtenerEstudianteActual() {
-    const estudianteActual = localStorage.getItem("actual");
-    if (estudianteActual) {
-      const { nombre, carnet } = JSON.parse(estudianteActual);
-      return { nombre, carnet };
-    }
-    return null;
-}
+
 
 
 function salir(){

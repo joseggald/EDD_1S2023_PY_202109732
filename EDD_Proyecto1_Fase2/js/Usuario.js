@@ -3,4 +3,4 @@ class Usuario {
       this.user = user;
       this.nombre = nombre;
     }
-  }
+}

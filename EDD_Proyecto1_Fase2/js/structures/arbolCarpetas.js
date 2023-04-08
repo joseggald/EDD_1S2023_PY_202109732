@@ -16,9 +16,15 @@ class Tree{
     }
 
     insert(folderName, fatherPath){ 
-        let newNode =  new Tnode(folderName);
         let fatherNode = this.getFolder(fatherPath);
         if(fatherNode){
+            let i = 0;
+            let newNodeName = folderName;
+            while(fatherNode.children.find(child => child.folderName === newNodeName)){
+                i++;
+                newNodeName = `Copia ${folderName}`;
+            }
+            let newNode =  new Tnode(newNodeName);
             this.size += 1;
             newNode.id = this.size;
             fatherNode.children.push(newNode);
@@ -83,6 +89,3 @@ class Tree{
     }
 
 }
-
-
-// module.exports = Tree;
