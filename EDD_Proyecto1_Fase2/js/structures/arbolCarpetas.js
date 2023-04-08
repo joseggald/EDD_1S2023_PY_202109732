@@ -33,6 +33,50 @@ class Tree{
         }
     }
 
+    deleteFolder(path){
+        let folder = this.getFolder(path);
+        if(folder){
+            let parentNode = this.getParentNode(path);
+            let index = parentNode.children.findIndex(child => child.folderName === folder.folderName);
+            parentNode.children.splice(index, 1);
+            alert(`La carpeta ${folder.folderName} ha sido eliminada`);
+        }else{
+            alert("La carpeta no existe");
+        }
+    }
+
+    getParentNode(path){
+        let folders = path.split('/');
+        folders = folders.filter( str => str !== '');
+        let temp = this.root;
+        let parentNode = null;
+        let folder = null;
+        while(folders.length > 0){
+            let currentFolder = folders.shift()
+            folder = temp.children.find(child => child.folderName == currentFolder);
+            if(typeof folder == 'undefined' || folder == null){
+                return null;
+            }
+            parentNode = temp;
+            temp = folder;
+        }
+        return parentNode;
+    }
+
+    renameFolder(path, newName){
+        let folder = this.getFolder(path);
+        if(folder){
+            let parentNode = this.getParentNode(path);
+            if(parentNode.children.find(child => child.folderName === newName)){
+                alert(`Ya existe una carpeta con el nombre ${newName}`);
+                return;
+            }
+            folder.folderName = newName;
+            alert(`La carpeta ha sido renombrada a ${newName}`);
+        }else{
+            alert("La carpeta no existe");
+        }
+    }
 
     getFolder(path){
 

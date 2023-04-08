@@ -3,8 +3,9 @@
 
 let avlTree = null;
 let alumnosSistema=[];
-let tree =  new Tree();
+let tree = new Tree;
 var actual;
+
 function crearCarpeta(e){
     e.preventDefault();
     let folderName =  $('#folderName').val();
@@ -12,14 +13,24 @@ function crearCarpeta(e){
     tree.insert(folderName, path);
     alert("Todo bien!")
     $('#carpetas').html(tree.getHTML(path))
+    tree= new Tree();
+    alumnosSistema[actual.num].arbolCarpeta=tree;     
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema));
+    
 }
-
+function eliminarCarpeta(){
+    let folderName =  $('#folderName').val();
+    let path =  $('#path').val();
+    let dic=path+folderName;
+    tree.deleteFolder(dic)
+}
 function entrarCarpeta(folderName){
     let path = $('#path').val();
     let curretPath = path == '/'? path + folderName : path + "/"+ folderName;
     console.log(curretPath)
     $('#path').val(curretPath);
     $('#carpetas').html(tree.getHTML(curretPath))
+    
 }
 
 function retornarInicio(){
@@ -33,6 +44,7 @@ function showGraph(){
     let body = `digraph G { ${tree.graph()} }`
     $("#graph").attr("src", url + body);
 }
+
 window.onload = function() {
     var txt = document.getElementById("valUser");
     let act=JSON.parse(localStorage.getItem("actual"));
@@ -46,7 +58,7 @@ function loginVerificar(){
     let a=0;
     if(user === "admin" && pass === "admin"){  
         alert("Se ha iniciado sesion correctamente!")  
-        actual=new Usuario(user,user);  
+        actual=new Usuario(user,user,0);  
         console.log(actual)
         localStorage.setItem("actual", JSON.stringify(actual))     
         cambiar_pagina_admin();
@@ -55,11 +67,15 @@ function loginVerificar(){
     let studentsLocalStorage = JSON.parse(localStorage.getItem("alumnosSistema"));
     for(let i = 0; i < studentsLocalStorage.length; i++){ 
         if (studentsLocalStorage[i].carnet == user && pass == studentsLocalStorage[i].password) {
-            actual=new Usuario(user,studentsLocalStorage[i].nombre);
+            tree = new Tree();
+            actual=new Usuario(user,studentsLocalStorage[i].nombre,i);
+            
+            
             alert("Se ha iniciado sesion correctamente!")    
             a=1;   
             localStorage.setItem("actual", JSON.stringify(actual))           
             window.location.href = "alum.html";
+            localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema));
         } 
     }
     if(a==0){
@@ -112,7 +128,6 @@ function loadStudentsForm(e) {
                 let nuevo=new Estudiante(studentsArray[i].carnet, studentsArray[i].nombre, studentsArray[i].password,null,null)
                 avlTree.insert(nuevo)
                 alumnosSistema.push(nuevo)
-                console.log(nuevo)
             }
             console.log(alumnosSistema.length)
             localStorage.setItem("avlTree", JSON.stringify(avlTree))

@@ -45,9 +45,10 @@
                 <form class="form" onsubmit="crearCarpeta(event)">
                     <input type="text" id="folderName" name="folderName" class="form-control" placeholder="Nombre de Carpeta">
                     <div class="form-group mt-4">
-                        <button type="submit" class="btn btn-primary w-100">Crear Carpeta</button>
-                    </div>
+                        <button type="submit" class="btn btn-primary w-100">Crear Carpeta</button> 
+                    </div>  
                 </form>
+                <button type="button" class="btn btn-danger w-100 mt-2"  onclick=eliminarCarpeta()>Eliminar Carpeta</button>
                 <hr>
                 <h5>Nueva Archivo</h5>
                 <form class="form" onsubmit="crearCarpeta(event)">
@@ -56,6 +57,8 @@
                         <button type="submit" class="btn btn-primary w-100">Crear Archivo</button>
                     </div>
                 </form>
+                <button type="button" class="btn btn-danger w-100 mt-2">Eliminar Archivo</button>
+                
                 <hr>
                 <h5>Generacion de reportes</h5>
                 <a onclick="showGraph()" class="btn btn-primary w-100 mt-3">Graficar datos</a>
