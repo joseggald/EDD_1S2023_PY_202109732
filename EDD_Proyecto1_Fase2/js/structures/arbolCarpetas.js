@@ -1,9 +1,9 @@
-// CLASE NODO 
+
 class Tnode{
     constructor(folderName){
         this.folderName = folderName;
-        this.children = []; // TODOS LOS NODOS HIJOS
-        this.id = null; // PARA GENERAR LA GRÁFICA
+        this.children = []; 
+        this.id = null; 
     }
 }
 
@@ -12,7 +12,7 @@ class Tree{
     constructor(){
         this.root = new Tnode('/');
         this.root.id = 0;
-        this.size = 1; // Para generar los ids
+        this.size = 1; 
     }
 
     insert(folderName, fatherPath){ 
@@ -29,8 +29,7 @@ class Tree{
 
 
     getFolder(path){
-        // Padre sea una '/'
-        // console.log(path);
+
         if(path == this.root.folderName){
             return this.root;
         }else{
@@ -76,7 +75,7 @@ class Tree{
         let code = "";
         node.children.map(child => {
             code += ` <div class="col-2 folder" onclick="entrarCarpeta('${child.folderName}')">
-                        <img src="./imgs/folder.png" width="100%"/>
+                        <img src="./assets/images/carpeta.png" width="100%"/>
                         <p class="h6 text-center">${child.folderName}</p>
                     </div>`
         })

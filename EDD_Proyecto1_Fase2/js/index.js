@@ -1,3 +1,4 @@
+
 let avlTree = null;
 let alumnosSistema=[];
 let actual;
@@ -50,12 +51,29 @@ function loginVerificar(){
             a=1;
             actual=new Usuario(user,studentsLocalStorage[i].nombre);
             localStorage.setItem("actual", JSON.stringify(actual))
+            const estudiante = obtenerEstudianteActual();
+            if (estudiante) {
+                const bienvenida = document.getElementById("bienvenida");
+                bienvenida.textContent = `Bienvenido de nuevo ${estudiante.nombre} con carnet ${estudiante.carnet}`;
+            } else {
+                console.log("No se encontró ningún estudiante en el Local Storage");
+            }
+            window.location.href = "alum.html";
         } 
     }
     if(a==0){
         alert("Usuario y contraseña incorrecta!");
     }
 }
+function obtenerEstudianteActual() {
+    const estudianteActual = localStorage.getItem("actual");
+    if (estudianteActual) {
+      const { nombre, carnet } = JSON.parse(estudianteActual);
+      return { nombre, carnet };
+    }
+    return null;
+}
+
 
 function salir(){
     window.location.href = "index.html";
@@ -95,12 +113,11 @@ function loadStudentsForm(e) {
                 }).join('')
             )
             for(let i = 0; i < studentsArray.length; i++){
-                avlTree.insert(studentsArray[i]);
+                avlTree.insert(studentsArray[i])
                 alumnosSistema.push(studentsArray[i])
                 console.log(alumnosSistema[i].carnet)
             }
             console.log(alumnosSistema.length)
-            // GUARDAR EN LOCAL STORAGE
             localStorage.setItem("avlTree", JSON.stringify(avlTree))
             localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema))
             alert('Alumnos cargados con éxito!')
