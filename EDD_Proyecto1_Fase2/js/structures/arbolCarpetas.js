@@ -79,7 +79,6 @@ class Tree{
     }
 
     getFolder(path){
-
         if(path == this.root.folderName){
             return this.root;
         }else{
