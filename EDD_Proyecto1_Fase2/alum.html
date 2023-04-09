@@ -44,24 +44,32 @@
                 <h5>Nueva Carpeta</h5>
                 <form class="form" onsubmit="crearCarpeta(event)">
                     <input type="text" id="folderName" name="folderName" class="form-control" placeholder="Nombre de Carpeta">
-                    <div class="form-group mt-4">
+                    <div class="form-group mt-2">
                         <button type="submit" class="btn btn-primary w-100">Crear Carpeta</button> 
                     </div>  
                 </form>
                 <button type="button" class="btn btn-danger w-100 mt-2"  onclick=eliminarCarpeta()>Eliminar Carpeta</button>
                 <hr>
-                <h5>Nueva Archivo</h5>
-                <form class="form" onsubmit="crearCarpeta(event)">
-                    <input type="text" id="folderName" name="folderName" class="form-control" placeholder="Nombre de archivo">
-                    <div class="form-group mt-4">
-                        <button type="submit" class="btn btn-primary w-100">Crear Archivo</button>
+                <h5>Nuevo Archivo</h5> 
+                <form class="form">
+                    <input type="file" id="inputFile" name="inputFile" class="form-control" placeholder="Pos. X" required="">
+                    <div class="form-group mt-2">
+                        <button type="submit" class="btn btn-primary w-100">Subir Archivo</button>
                     </div>
                 </form>
-                <button type="button" class="btn btn-danger w-100 mt-2">Eliminar Archivo</button>
+                <hr>
+                <h5>Eliminar Archivo</h5>
+                <form class="form">
+                    <input type="text" id="folderName" name="folderName" class="form-control" placeholder="Nombre de archivo">
+                    <div class="form-group mt-2">
+                        <button type="submit" class="btn btn-danger w-100 mt-2">Eliminar Archivo</button>
+                    </div>
+                </form>
+                
                 
                 <hr>
                 <h5>Generacion de reportes</h5>
-                <a onclick="showGraph()" class="btn btn-primary w-100 mt-3">Graficar datos</a>
+                <a onclick="showGraph()" class="btn btn-primary w-100 mt-3">Graficar Datos</a>
             </div>
             <div class="col-8 p-5">
                 <h5 class="text-center">Explorador de archivos</h5>

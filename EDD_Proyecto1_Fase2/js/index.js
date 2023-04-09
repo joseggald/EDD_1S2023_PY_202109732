@@ -1,28 +1,32 @@
-
-
-
 let avlTree = null;
 let alumnosSistema=[];
-let tree = new Tree;
+let tree = new Tree();
 var actual;
+let documentos=[];
 
 function crearCarpeta(e){
     e.preventDefault();
     let folderName =  $('#folderName').val();
     let path =  $('#path').val();
     tree.insert(folderName, path);
-    alert("Todo bien!")
     $('#carpetas').html(tree.getHTML(path))
-    tree= new Tree();
-    alumnosSistema[actual.num].arbolCarpeta=tree;     
-    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema));
-    
+    let act=JSON.parse(localStorage.getItem("actual"));
+    alumnosSistema[act.num].arbolCarpeta=tree;
+    console.log(tree)
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
+    alert("Todo bien!") 
 }
+
 function eliminarCarpeta(){
     let folderName =  $('#folderName').val();
     let path =  $('#path').val();
     let dic=path+folderName;
     tree.deleteFolder(dic)
+    let act=JSON.parse(localStorage.getItem("actual"));
+    alumnosSistema[act.num].arbolCarpeta=tree;
+    console.log(tree)
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
+    $('#carpetas').html(tree.getHTML("/"))
 }
 function entrarCarpeta(folderName){
     let path = $('#path').val();
@@ -46,10 +50,26 @@ function showGraph(){
 }
 
 window.onload = function() {
-    var txt = document.getElementById("valUser");
-    let act=JSON.parse(localStorage.getItem("actual"));
-    console.log(act)
-    txt.innerText = "Bienvenido de nuevo: "+act.nombre+ "  Carnet: "+ act.user;
+    try{
+        let act=JSON.parse(localStorage.getItem("actual"));
+        alumnosSistema = JSON.parse(localStorage.getItem("alumnosSistema"));
+        tree = new Tree();
+        if (alumnosSistema != null && alumnosSistema[act.num].arbolCarpeta != null) {
+            tree.root = alumnosSistema[act.num].arbolCarpeta.root ;
+            console.log(tree)
+            $('#carpetas').html(tree.getHTML("/"))
+        } else {
+            tree = new Tree();
+            alumnosSistema[act.num].arbolCarpeta = tree;
+            console.log("WNo")
+        }
+        var txt = document.getElementById("valUser");
+        console.log(act)
+        txt.innerText = "Bienvenido de nuevo: "+act.nombre+ "  Carnet: "+ act.user;
+    }
+    catch (error) {
+        console.log("error lad");       
+    } 
 };
 
 function loginVerificar(){
@@ -67,24 +87,17 @@ function loginVerificar(){
     let studentsLocalStorage = JSON.parse(localStorage.getItem("alumnosSistema"));
     for(let i = 0; i < studentsLocalStorage.length; i++){ 
         if (studentsLocalStorage[i].carnet == user && pass == studentsLocalStorage[i].password) {
-            tree = new Tree();
             actual=new Usuario(user,studentsLocalStorage[i].nombre,i);
-            
-            
             alert("Se ha iniciado sesion correctamente!")    
-            a=1;   
+            a=1;    
             localStorage.setItem("actual", JSON.stringify(actual))           
             window.location.href = "alum.html";
-            localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema));
         } 
     }
     if(a==0){
         alert("Usuario y contraseña incorrecta!");
     }
 }
-
-
-
 
 function salir(){
     window.location.href = "index.html";
@@ -101,7 +114,6 @@ function cambiar_pagina_admin(){
 }
 
 function loadStudentsForm(e) {
-    
     e.preventDefault();
     const formData = new FormData(e.target);
     const form = Object.fromEntries(formData);
@@ -109,10 +121,8 @@ function loadStudentsForm(e) {
     try{        
         let fr = new FileReader();
         fr.readAsText(form.inputFile);
-        fr.onload = () => {
-            
+        fr.onload = () => { 
             studentsArray = JSON.parse(fr.result).alumnos;
-            //AGREGAR A LA TABLA LOS ALUMNOS CARGADOS 
             $('#studentsTable tbody').html(
                 studentsArray.map((item, index) => {
                     return(`
@@ -144,8 +154,10 @@ function showLocalStudents(){
     try {
         let temp = localStorage.getItem("avlTree")
         avlTree = new AvlTree;
+        alumnosSistema=[];
         if (temp !== null) {
             avlTree.root = JSON.parse(temp).root;
+            alumnosSistema = JSON.parse(localStorage.getItem("alumnosSistema"));
             $('#studentsTable tbody').html(
                 avlTree.inOrder()
             )
