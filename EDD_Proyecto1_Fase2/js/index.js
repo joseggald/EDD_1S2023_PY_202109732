@@ -4,6 +4,7 @@ let tree = new Tree();
 let userData = new Tree();
 var actual;
 let documentos=[];
+let matriz=null;
 
 function crearCarpeta(e){
     e.preventDefault();
@@ -19,6 +20,54 @@ function crearCarpeta(e){
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     alert("Todo bien!") 
 }
+
+function resetearEst(){
+    let act=JSON.parse(localStorage.getItem("actual"));
+    alumnosSistema[act.num].arbolCarpeta=null;
+    alumnosSistema[act.num].expArchivos=null;
+    alumnosSistema[act.num].archivos=null;
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
+    alert("Alumno Reseteado!") 
+    window.location.href = "alum.html";
+}
+
+function rellenarSelects() {
+    // Obtener los elementos select
+    const estudianteSelect = document.getElementById("estudianteSelect");
+    const archivoSelect = document.getElementById("archivoSelect");
+  
+    // Agregar opciones a estudianteSelect
+    const estudianteOptionDefault = document.createElement("option");
+    estudianteOptionDefault.selected = true;
+    estudianteOptionDefault.textContent = "Seleccione una opción";
+    estudianteSelect.appendChild(estudianteOptionDefault);
+  
+    alumnosSistema.forEach((alumno) => {
+      const option = document.createElement("option");
+      option.value = alumno.carnet;
+      option.textContent = alumno.nombre;
+      estudianteSelect.appendChild(option);
+    });
+  
+    // Agregar opciones a archivoSelect
+    
+    if (documentos==null){
+        console.log("nada")
+    }else{
+        const archivoOptionDefault = document.createElement("option");
+        archivoOptionDefault.selected = true;
+        archivoOptionDefault.textContent = "Seleccione una opción";
+        archivoSelect.appendChild(archivoOptionDefault);
+        documentos.forEach((documento) => {
+            const option = document.createElement("option");
+            option.value = documento;
+            option.textContent = documento;
+            archivoSelect.appendChild(option);
+        });
+    }
+    
+}
+
 function subirArchivo(e){
     e.preventDefault();
     const input = document.getElementById('inputFile');
@@ -26,12 +75,15 @@ function subirArchivo(e){
     let path =  $('#path').val();
     console.log(folderName)
     userData.insert(folderName, path);
+    documentos.push(folderName)
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].expArchivos=userData;
+    alumnosSistema[act.num].archivos=documentos;
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     alert("Todo bien!") 
     $('#carpetas').html(userData.getHTML(path))
 }
+
 function eliminarCarpeta(){
     let folderName =  $('#folderName').val();
     let path =  $('#path').val();
@@ -41,6 +93,7 @@ function eliminarCarpeta(){
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].arbolCarpeta=tree;
     alumnosSistema[act.num].expArchivos=userData;
+    alumnosSistema[act.num].archivos=documentos;
     console.log(tree)
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     $('#carpetas').html(userData.getHTML("/"))
@@ -51,9 +104,11 @@ function eliminarArchivo(){
     let path =  $('#path').val();
     let dic=path+folderName;
     userData.deleteFolder(dic)
+    documentos.pop(folderName)
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].expArchivos=userData;
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
+    
     $('#carpetas').html(userData.getHTML("/"))
 }
 
@@ -84,15 +139,19 @@ window.onload = function() {
         alumnosSistema = JSON.parse(localStorage.getItem("alumnosSistema"));
         tree = new Tree();
         userData = new Tree();
+        documentos=[];
         if (alumnosSistema != null && alumnosSistema[act.num].arbolCarpeta != null) {
             tree.root = alumnosSistema[act.num].arbolCarpeta.root ;
             userData.root = alumnosSistema[act.num].expArchivos.root ;
+            documentos=alumnosSistema[act.num].archivos;
             $('#carpetas').html(userData.getHTML("/"))
         } else {
             tree = new Tree();
             alumnosSistema[act.num].arbolCarpeta = tree;
             alumnosSistema[act.num].expArchivos = userData;
+            alumnosSistema[act.num].archivos=documentos;
         }
+        rellenarSelects();
         var txt = document.getElementById("valUser");
         console.log(act)
         txt.innerText = "Bienvenido de nuevo: "+act.nombre+ "  Carnet: "+ act.user;
@@ -139,6 +198,7 @@ function resetLocalStorage() {
     alert("Local Storage ha sido reseteado.");
     window.location.href = "admin.html";
 }
+
 function cambiar_pagina_admin(){
     window.location.href = "admin.html";
 }
@@ -165,7 +225,7 @@ function loadStudentsForm(e) {
                 }).join('')
             )
             for(let i = 0; i < studentsArray.length; i++){
-                let nuevo=new Estudiante(studentsArray[i].carnet, studentsArray[i].nombre, studentsArray[i].password,null,null,null)
+                let nuevo=new Estudiante(studentsArray[i].carnet, studentsArray[i].nombre, studentsArray[i].password,null,null,null,null)
                 avlTree.insert(nuevo)
                 alumnosSistema.push(nuevo)
             }

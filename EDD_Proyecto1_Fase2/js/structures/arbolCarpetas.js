@@ -137,10 +137,18 @@ class Tree{
             }else if (child.folderName.endsWith(".zip")||child.folderName.endsWith(".rar")) {
                 icon = "./assets/images/zip.png";
             }
-            code += ` <div class="col-2 folder" onclick="entrarCarpeta('${child.folderName}')">
+            if (icon=="./assets/images/carpeta.png"){
+                code += ` <div class="col-2 folder" onclick="entrarCarpeta('${child.folderName}')">
                     <img src="${icon}" width="100%"/>
                     <p class="h6 text-center" style="max-width: 100%; margin-bottom: 5px;">${child.folderName}</p>
                 </div>`
+            }else{
+                code += ` <div class="col-2 folder">
+                    <img src="${icon}" width="100%"/>
+                    <p class="h6 text-center" style="max-width: 100%; margin-bottom: 5px;">${child.folderName}</p>
+                </div>`
+            }
+            
         })
         return code;
     }

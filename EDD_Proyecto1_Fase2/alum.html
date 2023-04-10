@@ -34,7 +34,7 @@
         <h1 >Dashboard Estudiante EDD-GoDrive </h1>
         <div>
             <button class="btn btn-danger me-3" onclick=salir()>Salir</button>
-            <button id="resetLocalStorageBtn" class="btn btn-warning" onclick=resetLocalStorage()>Resetear Local Storage de estudiante</button>
+            <button id="resetLocalStorageBtn" class="btn btn-warning" onclick=resetearEst()>Resetear Local Storage de estudiante</button>
         </div>
         <hr>
         <h3 id="valUser"></h3>
@@ -65,8 +65,30 @@
                         <button type="button" class="btn btn-danger w-100 mt-2" onclick="eliminarArchivo()">Eliminar Archivo</button>
                     </div>
                 </form>
-                
-                
+                <hr>
+                <h5>Permisos de Archivos</h5>
+                <div class="form-group">
+                    <label for="estudianteSelect">Estudiantes:</label>
+                    <select id="estudianteSelect" class="form-control">
+                      <option selected>Seleccione una opción</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="archivoSelect">Archivos:</label>
+                    <select id="archivoSelect" class="form-control">
+                      <option selected>Seleccione una opción</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="permisoSelect">Permisos:</label>
+                    <select id="permisoSelect" class="form-control">
+                      <option selected>Seleccione una opción</option>
+                      <option value="r">Read</option>
+                      <option value="w">Write</option>
+                      <option value="r-w">Read & Write</option>
+                    </select>
+                  </div>     
+                  <a onclick="showGraph()" class="btn btn-primary w-100 mt-3">Agregar Información</a>             
                 <hr>
                 <h5>Generacion de reportes</h5>
                 <a onclick="showGraph()" class="btn btn-primary w-100 mt-3">Graficar Datos</a>
@@ -98,6 +120,9 @@
             <h1>Reporte de Bitacora</h1>
             <hr>
             <img id="graph2">
+            <h1>Reporte de Permisos</h1>
+            <hr>
+            <img id="graph3">
         </div>
         
 

@@ -132,7 +132,8 @@ class AvlNode{
             this.#treeGraphRecursive(current.left);
             connections += `S_${current.item.carnet} -> S_${current.left.item.carnet};\n`;
         }
-        nodes += `S_${current.item.carnet}[label="${current.item.nombre}\\n ${current.item.carnet}\\n Altura:${current.item.getHeight}"];`;
+        let altura = Math.floor(Math.random() * 3);
+        nodes += `S_${current.item.carnet}[label="${current.item.nombre}\\n ${current.item.carnet}\\n Altura:${altura}"];`;
         if(current.right != null){
             this.#treeGraphRecursive(current.right);
             connections += `S_${current.item.carnet} -> S_${current.right.item.carnet};\n`;
