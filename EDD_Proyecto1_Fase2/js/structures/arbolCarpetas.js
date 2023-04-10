@@ -123,12 +123,27 @@ class Tree{
         let node = this.getFolder(path);
         let code = "";
         node.children.map(child => {
+            let icon = "./assets/images/carpeta.png";
+            if (child.folderName.endsWith(".png") || 
+                child.folderName.endsWith(".jpg") ||
+                child.folderName.endsWith(".jpeg")) {
+                icon = "./assets/images/galeria.png";
+            } else if (child.folderName.endsWith(".pdf")) {
+                icon = "./assets/images/pdf.png";
+            }else if (child.folderName.endsWith(".docx")) {
+                icon = "./assets/images/word.png";
+            } else if (child.folderName.endsWith(".txt")) {
+                icon = "./assets/images/documento.png";
+            }else if (child.folderName.endsWith(".zip")||child.folderName.endsWith(".rar")) {
+                icon = "./assets/images/zip.png";
+            }
             code += ` <div class="col-2 folder" onclick="entrarCarpeta('${child.folderName}')">
-                        <img src="./assets/images/carpeta.png" width="100%"/>
-                        <p class="h6 text-center">${child.folderName}</p>
-                    </div>`
+                    <img src="${icon}" width="100%"/>
+                    <p class="h6 text-center" style="max-width: 100%; margin-bottom: 5px;">${child.folderName}</p>
+                </div>`
         })
         return code;
     }
+    
 
 }

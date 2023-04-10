@@ -1,6 +1,7 @@
 let avlTree = null;
 let alumnosSistema=[];
 let tree = new Tree();
+let userData = new Tree();
 var actual;
 let documentos=[];
 
@@ -9,37 +10,65 @@ function crearCarpeta(e){
     let folderName =  $('#folderName').val();
     let path =  $('#path').val();
     tree.insert(folderName, path);
-    $('#carpetas').html(tree.getHTML(path))
+    userData.insert(folderName, path);
+    $('#carpetas').html(userData.getHTML(path))
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].arbolCarpeta=tree;
+    alumnosSistema[act.num].expArchivos=userData;
     console.log(tree)
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     alert("Todo bien!") 
 }
-
+function subirArchivo(e){
+    e.preventDefault();
+    const input = document.getElementById('inputFile');
+    let folderName =  input.files[0].name;
+    let path =  $('#path').val();
+    console.log(folderName)
+    userData.insert(folderName, path);
+    let act=JSON.parse(localStorage.getItem("actual"));
+    alumnosSistema[act.num].expArchivos=userData;
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
+    alert("Todo bien!") 
+    $('#carpetas').html(userData.getHTML(path))
+}
 function eliminarCarpeta(){
     let folderName =  $('#folderName').val();
     let path =  $('#path').val();
     let dic=path+folderName;
     tree.deleteFolder(dic)
+    userData.deleteFolder(dic)
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].arbolCarpeta=tree;
+    alumnosSistema[act.num].expArchivos=userData;
     console.log(tree)
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
-    $('#carpetas').html(tree.getHTML("/"))
+    $('#carpetas').html(userData.getHTML("/"))
 }
+
+function eliminarArchivo(){
+    let folderName =  $('#folderName2').val();
+    let path =  $('#path').val();
+    let dic=path+folderName;
+    userData.deleteFolder(dic)
+    let act=JSON.parse(localStorage.getItem("actual"));
+    alumnosSistema[act.num].expArchivos=userData;
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
+    $('#carpetas').html(userData.getHTML("/"))
+}
+
 function entrarCarpeta(folderName){
     let path = $('#path').val();
     let curretPath = path == '/'? path + folderName : path + "/"+ folderName;
     console.log(curretPath)
     $('#path').val(curretPath);
-    $('#carpetas').html(tree.getHTML(curretPath))
+    $('#carpetas').html(userData.getHTML(curretPath))
     
 }
 
 function retornarInicio(){
     $('#path').val("/");
-    $('#carpetas').html(tree.getHTML("/"))
+    $('#carpetas').html(userData.getHTML("/"))
 }
 
 
@@ -54,14 +83,15 @@ window.onload = function() {
         let act=JSON.parse(localStorage.getItem("actual"));
         alumnosSistema = JSON.parse(localStorage.getItem("alumnosSistema"));
         tree = new Tree();
+        userData = new Tree();
         if (alumnosSistema != null && alumnosSistema[act.num].arbolCarpeta != null) {
             tree.root = alumnosSistema[act.num].arbolCarpeta.root ;
-            console.log(tree)
-            $('#carpetas').html(tree.getHTML("/"))
+            userData.root = alumnosSistema[act.num].expArchivos.root ;
+            $('#carpetas').html(userData.getHTML("/"))
         } else {
             tree = new Tree();
             alumnosSistema[act.num].arbolCarpeta = tree;
-            console.log("WNo")
+            alumnosSistema[act.num].expArchivos = userData;
         }
         var txt = document.getElementById("valUser");
         console.log(act)
@@ -135,7 +165,7 @@ function loadStudentsForm(e) {
                 }).join('')
             )
             for(let i = 0; i < studentsArray.length; i++){
-                let nuevo=new Estudiante(studentsArray[i].carnet, studentsArray[i].nombre, studentsArray[i].password,null,null)
+                let nuevo=new Estudiante(studentsArray[i].carnet, studentsArray[i].nombre, studentsArray[i].password,null,null,null)
                 avlTree.insert(nuevo)
                 alumnosSistema.push(nuevo)
             }

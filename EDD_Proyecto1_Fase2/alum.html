@@ -51,7 +51,7 @@
                 <button type="button" class="btn btn-danger w-100 mt-2"  onclick=eliminarCarpeta()>Eliminar Carpeta</button>
                 <hr>
                 <h5>Nuevo Archivo</h5> 
-                <form class="form">
+                <form class="form" onsubmit="subirArchivo(event)">
                     <input type="file" id="inputFile" name="inputFile" class="form-control" placeholder="Pos. X" required="">
                     <div class="form-group mt-2">
                         <button type="submit" class="btn btn-primary w-100">Subir Archivo</button>
@@ -60,9 +60,9 @@
                 <hr>
                 <h5>Eliminar Archivo</h5>
                 <form class="form">
-                    <input type="text" id="folderName" name="folderName" class="form-control" placeholder="Nombre de archivo">
+                    <input type="text" id="folderName2" name="folderName" class="form-control" placeholder="Nombre de archivo">
                     <div class="form-group mt-2">
-                        <button type="submit" class="btn btn-danger w-100 mt-2">Eliminar Archivo</button>
+                        <button type="button" class="btn btn-danger w-100 mt-2" onclick="eliminarArchivo()">Eliminar Archivo</button>
                     </div>
                 </form>
                 
