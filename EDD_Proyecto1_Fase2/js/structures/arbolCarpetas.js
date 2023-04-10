@@ -126,7 +126,10 @@ class Tree{
             let icon = "./assets/images/carpeta.png";
             if (child.folderName.endsWith(".png") || 
                 child.folderName.endsWith(".jpg") ||
-                child.folderName.endsWith(".jpeg")) {
+                child.folderName.endsWith(".jpeg")|| 
+                child.folderName.endsWith(".JPG") ||
+                child.folderName.endsWith(".PNG")||
+                child.folderName.endsWith(".JPEG")) {
                 icon = "./assets/images/galeria.png";
             } else if (child.folderName.endsWith(".pdf")) {
                 icon = "./assets/images/pdf.png";

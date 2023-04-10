@@ -2,6 +2,7 @@ let avlTree = null;
 let alumnosSistema=[];
 let tree = new Tree();
 let userData = new Tree();
+let listActions = new ListaCircular();
 var actual;
 let documentos=[];
 let matriz=null;
