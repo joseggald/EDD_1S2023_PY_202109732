@@ -5,6 +5,9 @@ let userData = new Tree();
 var actual;
 let documentos=[];
 let matriz=null;
+const selectEstudiantes = document.getElementById("estudianteSelect");
+const selectArchivos = document.getElementById("archivoSelect");
+const selectPermisos = document.getElementById("permisoSelect");
 
 function crearCarpeta(e){
     e.preventDefault();
@@ -31,21 +34,38 @@ function resetearEst(){
     window.location.href = "alum.html";
 }
 
+function agregarPermiso(){
+    let carnetEstudiante = (selectEstudiantes.options[selectEstudiantes.selectedIndex]).text;
+    let arch = (selectArchivos.options[selectArchivos.selectedIndex]).text;
+    let permiso = (selectPermisos.options[selectPermisos.selectedIndex]).text;
+    let archivo = (arch.split(".")[0]).replace(/\s+/g, '_');
+
+    try {
+
+        if (matriz == null) {
+        matriz = new SparseMatrix();
+        matriz.insert(archivo, carnetEstudiante, permiso);
+        } else {
+        matriz.insert(archivo, carnetEstudiante, permiso);
+        }
+        alert("¡Permiso otorgado correctamente!") 
+    
+    } catch (error) {
+            console.log(error);
+            alert("Error") 
+    }
+}
+
 function rellenarSelects() {
     // Obtener los elementos select
     const estudianteSelect = document.getElementById("estudianteSelect");
     const archivoSelect = document.getElementById("archivoSelect");
-  
-    // Agregar opciones a estudianteSelect
-    const estudianteOptionDefault = document.createElement("option");
-    estudianteOptionDefault.selected = true;
-    estudianteOptionDefault.textContent = "Seleccione una opción";
-    estudianteSelect.appendChild(estudianteOptionDefault);
+
   
     alumnosSistema.forEach((alumno) => {
       const option = document.createElement("option");
       option.value = alumno.carnet;
-      option.textContent = alumno.nombre;
+      option.textContent = alumno.carnet;
       estudianteSelect.appendChild(option);
     });
   
@@ -54,15 +74,17 @@ function rellenarSelects() {
     if (documentos==null){
         console.log("nada")
     }else{
-        const archivoOptionDefault = document.createElement("option");
-        archivoOptionDefault.selected = true;
-        archivoOptionDefault.textContent = "Seleccione una opción";
-        archivoSelect.appendChild(archivoOptionDefault);
         documentos.forEach((documento) => {
-            const option = document.createElement("option");
-            option.value = documento;
-            option.textContent = documento;
-            archivoSelect.appendChild(option);
+            if (documento.endsWith(".png") || 
+            documento.endsWith(".jpg") ||
+            documento.endsWith(".jpeg")){
+                console.log("nada")
+            }else{
+                const option = document.createElement("option");
+                option.value = documento;
+                option.textContent = documento;
+                archivoSelect.appendChild(option);
+            }    
         });
     }
     
@@ -82,6 +104,7 @@ function subirArchivo(e){
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     alert("Todo bien!") 
     $('#carpetas').html(userData.getHTML(path))
+    window.location.href = "alum.html";
 }
 
 function eliminarCarpeta(){
@@ -110,6 +133,7 @@ function eliminarArchivo(){
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     
     $('#carpetas').html(userData.getHTML("/"))
+    window.location.href = "alum.html";
 }
 
 function entrarCarpeta(folderName){
@@ -131,6 +155,18 @@ function showGraph(){
     let url = 'https://quickchart.io/graphviz?graph=';
     let body = `digraph G { ${tree.graph()} }`
     $("#graph").attr("src", url + body);
+    grafoMatriz();
+}
+function grafoMatriz(){
+    if (matriz != null) {
+        const contenedorImagen = document.getElementById("graph3");
+        let url = 'https://quickchart.io/graphviz?graph=';
+        let body = `digraph G{${matriz.graph()} }`;
+        console.log(body)
+        contenedorImagen.setAttribute("src", url + body);
+      } else {
+        alert("error") 
+      }
 }
 
 window.onload = function() {

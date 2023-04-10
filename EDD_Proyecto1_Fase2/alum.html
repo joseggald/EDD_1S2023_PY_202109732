@@ -69,26 +69,26 @@
                 <h5>Permisos de Archivos</h5>
                 <div class="form-group">
                     <label for="estudianteSelect">Estudiantes:</label>
-                    <select id="estudianteSelect" class="form-control">
-                      <option selected>Seleccione una opción</option>
+                    <select id="estudianteSelect" class="form-control" required>
+                      <option selected>Seleccione un estudiante</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="archivoSelect">Archivos:</label>
-                    <select id="archivoSelect" class="form-control">
-                      <option selected>Seleccione una opción</option>
+                    <select id="archivoSelect" class="form-control" required>
+                      <option selected>Seleccione un archivo</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="permisoSelect">Permisos:</label>
-                    <select id="permisoSelect" class="form-control">
-                      <option selected>Seleccione una opción</option>
+                    <select id="permisoSelect" class="form-control" required>
+                      <option selected>Seleccione un tipo de permiso</option>
                       <option value="r">Read</option>
                       <option value="w">Write</option>
-                      <option value="r-w">Read & Write</option>
+                      <option value="r-w">ReadWrite</option>
                     </select>
                   </div>     
-                  <a onclick="showGraph()" class="btn btn-primary w-100 mt-3">Agregar Información</a>             
+                  <a onclick="agregarPermiso()" class="btn btn-primary w-100 mt-3">Agregar Información</a>             
                 <hr>
                 <h5>Generacion de reportes</h5>
                 <a onclick="showGraph()" class="btn btn-primary w-100 mt-3">Graficar Datos</a>
@@ -144,6 +144,8 @@
         <script src="./js/index.js"></script>
         <script src="./js/Usuario.js"></script>
         <script src="./js/structures/arbolAvlEst.js"></script>
+        <script src="./js/structures/matrizArchivos.js"></script>
+        <script src="./js/structures/listaAcciones.js"></script>
         <script src="./js/Estudiante.js"></script>
 </body>
 </html>
