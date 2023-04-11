@@ -280,10 +280,10 @@ function loginVerificar(){
             alert("Se ha iniciado sesion correctamente!")    
             a=1; 
             localStorage.setItem("actual", JSON.stringify(actual))
-            listaAcciones = [];
             let act=JSON.parse(localStorage.getItem("actual"));
             listaAcciones=studentsLocalStorage[act.num].acciones;
             let data=`Se inicio sesion.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+            listaAcciones = [];
             listaAcciones.push(data);
             studentsLocalStorage[act.num].acciones=listaAcciones;
             localStorage.setItem("alumnosSistema", JSON.stringify(studentsLocalStorage))      
