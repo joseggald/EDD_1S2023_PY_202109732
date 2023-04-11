@@ -33,18 +33,25 @@ class Tree{
         }
     }
 
-    deleteFolder(path){
-        let folder = this.getFolder(path);
-        if(folder){
-            let parentNode = this.getParentNode(path);
-            let index = parentNode.children.findIndex(child => child.folderName === folder.folderName);
-            parentNode.children.splice(index, 1);
-            alert(`La carpeta ${folder.folderName} ha sido eliminada`);
-        }else{
-            alert("La carpeta no existe");
+    delete(folderName, fatherPath) {
+        let parentNode = this.getFolder(fatherPath);
+        if (parentNode) {
+            let folderNode = parentNode.children.find(child => child.folderName === folderName);
+            if (folderNode) {
+                let index = parentNode.children.findIndex(child => child.id === folderNode.id);
+                parentNode.children.splice(index, 1);
+                // Actualizar los id de los nodos hermanos
+                for (let i = index; i < parentNode.children.length; i++) {
+                    parentNode.children[i].id -= 1;
+                }
+                alert("Se elimino correctamente!")
+            } else {
+                alert("No existe la carpeta")
+            }
+        } else {
+            alert("No existe la ruta del padre")
         }
     }
-
     getParentNode(path){
         let folders = path.split('/');
         folders = folders.filter( str => str !== '');

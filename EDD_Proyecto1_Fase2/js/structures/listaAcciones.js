@@ -1,5 +1,4 @@
 
-
 class Nodo {
     constructor(accion) {
         this.accion = accion;

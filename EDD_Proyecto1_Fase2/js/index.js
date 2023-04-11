@@ -1,11 +1,13 @@
+
 let avlTree = null;
 let alumnosSistema=[];
 let tree = new Tree();
 let userData = new Tree();
-let listActions = new ListaCircular();
+let listaAcciones = [];
 var actual;
-let documentos=[];
+let documentos = [];
 let matriz=null;
+
 const selectEstudiantes = document.getElementById("estudianteSelect");
 const selectArchivos = document.getElementById("archivoSelect");
 const selectPermisos = document.getElementById("permisoSelect");
@@ -21,12 +23,28 @@ function crearCarpeta(e){
     alumnosSistema[act.num].arbolCarpeta=tree;
     alumnosSistema[act.num].expArchivos=userData;
     console.log(tree)
+    listaAcciones=alumnosSistema[act.num].acciones;
+    let data=`Se creo la carpeta ${folderName}.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+    listaAcciones.push(data);
+    alumnosSistema[act.num].acciones=listaAcciones;
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     alert("Todo bien!") 
 }
 
+function actualizarAccion(){
+    accionLista=new ListaCircular();
+    let act=JSON.parse(localStorage.getItem("actual"));
+    listaAcciones.forEach((accion) => {
+        accionLista.insertar(accion);  
+    });
+    alumnosSistema[act.num].acciones=listaAcciones;
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
+    alert("Reporte Bitacora Generado")
+}
+
 function resetearEst(){
     let act=JSON.parse(localStorage.getItem("actual"));
+    alumnosSistema[act.num].acciones=null;
     alumnosSistema[act.num].arbolCarpeta=null;
     alumnosSistema[act.num].expArchivos=null;
     alumnosSistema[act.num].archivos=null;
@@ -40,9 +58,7 @@ function agregarPermiso(){
     let arch = (selectArchivos.options[selectArchivos.selectedIndex]).text;
     let permiso = (selectPermisos.options[selectPermisos.selectedIndex]).text;
     let archivo = (arch.split(".")[0]).replace(/\s+/g, '_');
-
     try {
-
         if (matriz == null) {
         matriz = new SparseMatrix();
         matriz.insert(archivo, carnetEstudiante, permiso);
@@ -50,10 +66,15 @@ function agregarPermiso(){
         matriz.insert(archivo, carnetEstudiante, permiso);
         }
         alert("¡Permiso otorgado correctamente!") 
-    
+        let act=JSON.parse(localStorage.getItem("actual"));
+        listaAcciones=alumnosSistema[act.num].acciones;
+        let data=`Se otorgo pemiso del archivo ${archivo} al estudiante ${carnetEstudiante}.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+        listaAcciones.push(data);
+        alumnosSistema[act.num].acciones=listaAcciones;
+        localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     } catch (error) {
             console.log(error);
-            alert("Error") 
+            alert("No se incluyo en permisos en la matriz") 
     }
 }
 
@@ -102,6 +123,10 @@ function subirArchivo(e){
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].expArchivos=userData;
     alumnosSistema[act.num].archivos=documentos;
+    listaAcciones=alumnosSistema[act.num].acciones;
+    let data=`Se subio el archivo ${folderName}.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+    listaAcciones.push(data);
+    alumnosSistema[act.num].acciones=listaAcciones;
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     alert("Todo bien!") 
     $('#carpetas').html(userData.getHTML(path))
@@ -111,14 +136,22 @@ function subirArchivo(e){
 function eliminarCarpeta(){
     let folderName =  $('#folderName').val();
     let path =  $('#path').val();
-    let dic=path+folderName;
-    tree.deleteFolder(dic)
-    userData.deleteFolder(dic)
+    let dic="";
+    if (path=="/"){
+        dic=path;
+    }else{
+        dic=path+"/";
+    }
+    tree.delete(folderName,dic)
+    userData.delete(folderName,dic)
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].arbolCarpeta=tree;
     alumnosSistema[act.num].expArchivos=userData;
     alumnosSistema[act.num].archivos=documentos;
-    console.log(tree)
+    listaAcciones=alumnosSistema[act.num].acciones;
+    let data=`Se elimino la Carpeta ${folderName}.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+    listaAcciones.push(data);
+    alumnosSistema[act.num].acciones=listaAcciones;
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     $('#carpetas').html(userData.getHTML("/"))
 }
@@ -126,11 +159,20 @@ function eliminarCarpeta(){
 function eliminarArchivo(){
     let folderName =  $('#folderName2').val();
     let path =  $('#path').val();
-    let dic=path+folderName;
-    userData.deleteFolder(dic)
+    let dic="";
+    if (path=="/"){
+        dic=path;
+    }else{
+        dic=path+"/";
+    }
+    userData.delete(folderName,dic)
     documentos.pop(folderName)
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].expArchivos=userData;
+    listaAcciones=alumnosSistema[act.num].acciones;
+    let data=`Se elimino el archivo ${folderName}.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+    listaAcciones.push(data);
+    alumnosSistema[act.num].acciones=listaAcciones;
     localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
     
     $('#carpetas').html(userData.getHTML("/"))
@@ -153,11 +195,21 @@ function retornarInicio(){
 
 
 function showGraph(){
+    let act=JSON.parse(localStorage.getItem("actual"));
+    listaAcciones=alumnosSistema[act.num].acciones;
+    let data=`Grafico Estructuras.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+    listaAcciones.push(data);
+    alumnosSistema[act.num].acciones=listaAcciones;
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)); 
     let url = 'https://quickchart.io/graphviz?graph=';
     let body = `digraph G { ${tree.graph()} }`
+    console.log(body)
     $("#graph").attr("src", url + body);
     grafoMatriz();
+    actualizarAccion();
+    grafoAcciones();
 }
+
 function grafoMatriz(){
     if (matriz != null) {
         const contenedorImagen = document.getElementById("graph3");
@@ -166,8 +218,15 @@ function grafoMatriz(){
         console.log(body)
         contenedorImagen.setAttribute("src", url + body);
       } else {
-        alert("error") 
+        alert("No hay datos en la matriz de de permisos.") 
       }
+}
+
+function grafoAcciones(){
+    const contenedorImagen = document.getElementById("graph2");
+    let url = 'https://quickchart.io/graphviz?graph=';
+    let body = `digraph G{node [shape=box]${accionLista.graficar()} }`;
+    contenedorImagen.setAttribute("src", url + body);
 }
 
 window.onload = function() {
@@ -181,12 +240,16 @@ window.onload = function() {
             tree.root = alumnosSistema[act.num].arbolCarpeta.root ;
             userData.root = alumnosSistema[act.num].expArchivos.root ;
             documentos=alumnosSistema[act.num].archivos;
+            listaAcciones=alumnosSistema[act.num].acciones;
+            localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema))
             $('#carpetas').html(userData.getHTML("/"))
         } else {
             tree = new Tree();
             alumnosSistema[act.num].arbolCarpeta = tree;
             alumnosSistema[act.num].expArchivos = userData;
             alumnosSistema[act.num].archivos=documentos;
+            alumnosSistema[act.num].acciones=listaAcciones;
+            localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema))
         }
         rellenarSelects();
         var txt = document.getElementById("valUser");
@@ -215,9 +278,17 @@ function loginVerificar(){
         if (studentsLocalStorage[i].carnet == user && pass == studentsLocalStorage[i].password) {
             actual=new Usuario(user,studentsLocalStorage[i].nombre,i);
             alert("Se ha iniciado sesion correctamente!")    
-            a=1;    
-            localStorage.setItem("actual", JSON.stringify(actual))           
+            a=1; 
+            localStorage.setItem("actual", JSON.stringify(actual))
+            listaAcciones = [];
+            let act=JSON.parse(localStorage.getItem("actual"));
+            listaAcciones=studentsLocalStorage[act.num].acciones;
+            let data=`Se inicio sesion.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+            listaAcciones.push(data);
+            studentsLocalStorage[act.num].acciones=listaAcciones;
+            localStorage.setItem("alumnosSistema", JSON.stringify(studentsLocalStorage))      
             window.location.href = "alum.html";
+             
         } 
     }
     if(a==0){
@@ -226,6 +297,12 @@ function loginVerificar(){
 }
 
 function salir(){
+    let act=JSON.parse(localStorage.getItem("actual"));
+    listaAcciones=alumnosSistema[act.num].acciones;
+    let data=`Se cerro sesion.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
+    listaAcciones.push(data);
+    alumnosSistema[act.num].acciones=listaAcciones;
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema))
     window.location.href = "index.html";
     localStorage.removeItem("actual")
 }
@@ -282,6 +359,7 @@ function showLocalStudents(){
         let temp = localStorage.getItem("avlTree")
         avlTree = new AvlTree;
         alumnosSistema=[];
+        listaAcciones = [];
         if (temp !== null) {
             avlTree.root = JSON.parse(temp).root;
             alumnosSistema = JSON.parse(localStorage.getItem("alumnosSistema"));
