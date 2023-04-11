@@ -32,7 +32,7 @@ Ventana Usuario: Los usuarios comunes cuentan con más opciones en la plataforma
 
 Matriz dispersa: Los usuarios pueden visualizar quiénes poseen permisos sobre sus archivos a través de una matriz dispersa.
 
-##Manual Técnico
+## Manual Técnico
 Para el desarrollo de la plataforma EDD GoDrive, se utilizaron diversas estructuras de datos eficientes, las cuales se describen a continuación:
 
 Árbol AVL: Se utilizó para almacenar los usuarios del sistema que ya han sido aceptados. Cada nodo del árbol contiene la información del usuario, incluyendo su nombre, contraseña y la lista de archivos que ha almacenado en el sistema.
