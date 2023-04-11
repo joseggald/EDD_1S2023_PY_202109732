@@ -296,7 +296,7 @@ function loginVerificar(){
     }
 }
 
-function salir(){
+function salirAlum(){
     let act=JSON.parse(localStorage.getItem("actual"));
     listaAcciones=alumnosSistema[act.num].acciones;
     let data=`Se cerro sesion.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
@@ -306,7 +306,10 @@ function salir(){
     window.location.href = "index.html";
     localStorage.removeItem("actual")
 }
-
+function salir(){
+    window.location.href = "index.html";
+    localStorage.removeItem("actual")
+}
 function resetLocalStorage() {
     localStorage.clear();
     alert("Local Storage ha sido reseteado.");
