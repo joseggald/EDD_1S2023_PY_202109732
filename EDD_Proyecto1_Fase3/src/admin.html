@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    <title>EDD-GoDrive</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="nav" class="col-12">
+                <div id="nombre-sitio">
+                  <a href="ventana-admin.html">Dashboard Administrador</a>
+                </div>
+                <div id="log-out">
+                  <a id="bnt-logout"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+            <div id="area-contenido-admin" class="col-12">
+                <div id="contenido-admin" class="row">
+                    <div id="botones-container-admin" class="col-sm-12 col-md-3">
+                        <div id="area-botones-admin" class="row row-cols-3 row-cols-sm-3 row-cols-md-1">
+                            <button id="mostrar-alumnos-btn" type="button" class="boton grande">Mostrar Alumnos</button>
+                            <button id="graficar-btn" type="button" class="boton grande">Graficar</button>
+                            <button id="carga-masiva-btn" type="button" class="boton grande">Carga Masiva</button>
+                            <button id="trasladar-btn" type="button" class="boton grande">Trasladar datos a Tabla Hash</button>
+                            <button id="permisos-btn" type="button" class="boton grande">Actualizar Permisos</button>
+                            <input type="file" id="input-carga-masiva" style="display:none;">
+                        </div>
+                    </div>
+                    <div id="tabla-estudiantes-admnin" class="col-sm-12 col-md-9">
+                        <h1 class="col-12">Estudiantes</h1>
+                        <div id="area-botones-orden" class="col-12">
+                          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="radio-in" autocomplete="off" checked>
+                            <label class="btn btn-outline-secondary" for="radio-in">In-Orden</label>
+                          
+                            <input type="radio" class="btn-check" name="btnradio" id="radio-pre" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="radio-pre">Pre-Orden</label>
+                          
+                            <input type="radio" class="btn-check" name="btnradio" id="radio-post" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="radio-post">Post-Orden</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="radio-tabla" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="radio-tabla">Tabla Hash</label>
+                          </div>
+                        </div>
+                        <div id="tabla-estudiantes-admin" class="col-12">
+                            <table id="tabla-estudiantes" class="table table-striped table-hover">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Carnet</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Contraseña</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="cuerpo-tabla-estudiantes">
+                                  
+                                </tbody>
+                              </table>
+                        </div>
+                        <div id="tabla-permisos-admin" class="col-12">
+                          <h1 class="col-12">Permisos</h1>
+                          <table id="tabla-permisos" class="table table-striped table-hover">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Propietario</th>
+                                  <th scope="col">Destino</th>
+                                  <th scope="col">Ubicación</th>
+                                  <th scope="col">Archivo</th>
+                                  <th scope="col">Permisos</th>
+                                </tr>
+                              </thead>
+                              <tbody id="cuerpo-tabla-permisos">
+                                
+                              </tbody>
+                            </table>
+                      </div>
+                        <div id="area-arbol" class="col-12">
+                          <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <img id="container-arbol-img" class="d-block w-100">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script type="module" src="assets/js/app-admin.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</body>
+</html>

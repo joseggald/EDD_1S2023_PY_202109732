@@ -18,7 +18,7 @@ function crearCarpeta(e){
     let path =  $('#path').val();
     tree.insert(folderName, path);
     userData.insert(folderName, path);
-    $('#carpetas').html(userData.getHTML(path))
+    $('#carpetas').html(userData.getHTML(path));
     let act=JSON.parse(localStorage.getItem("actual"));
     alumnosSistema[act.num].arbolCarpeta=tree;
     alumnosSistema[act.num].expArchivos=userData;
@@ -173,8 +173,7 @@ function eliminarArchivo(){
     let data=`Se elimino el archivo ${folderName}.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
     listaAcciones.push(data);
     alumnosSistema[act.num].acciones=listaAcciones;
-    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema)) 
-    
+    localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema))     
     $('#carpetas').html(userData.getHTML("/"))
     window.location.href = "alum.html";
 }
@@ -281,14 +280,17 @@ function loginVerificar(){
             a=1; 
             localStorage.setItem("actual", JSON.stringify(actual))
             let act=JSON.parse(localStorage.getItem("actual"));
-            listaAcciones=studentsLocalStorage[act.num].acciones;
+            if (listaAcciones=studentsLocalStorage[act.num].acciones==null){
+                listaAcciones = [];
+            }else{
+                listaAcciones=studentsLocalStorage[act.num].acciones;
+            }
+            
             let data=`Se inicio sesion.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
-            listaAcciones = [];
             listaAcciones.push(data);
             studentsLocalStorage[act.num].acciones=listaAcciones;
             localStorage.setItem("alumnosSistema", JSON.stringify(studentsLocalStorage))      
-            window.location.href = "alum.html";
-             
+            window.location.href = "alum.html";     
         } 
     }
     if(a==0){
