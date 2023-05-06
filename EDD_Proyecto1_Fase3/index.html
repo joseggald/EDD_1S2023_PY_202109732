@@ -2,97 +2,26 @@
 <html>
 <head>
 	<title>Login | EDD GoDrive</title>
-	<!-- Enlace a Bootstrap CSS -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
-	<style type="text/css">
-		.main {
-			height: 100vh;
-			background-color: #f7f7f7;
-		}
-		.side-image {
-			background-image: "src/assets/img/fsd.jpg";
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="src/assets/img/css/estiloLogin.css">
+    <style>
+        .container {
+			background-image: url("src/assets/img/a.jpg");
 			background-size: cover;
 			background-position: center;
-			color: #fff;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 30px;
-			font-weight: bold;
 		}
-		.right {
-			padding: 50px;
+		body {
+			background-image: url("src/assets/img/a.jpg");
+			background-size: cover;
+			background-position: center;
+			font-family: 'Roboto', sans-serif;
 		}
-		.input-box {
-			background-color: #fff;
-			border-radius: 10px;
-			box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-			padding: 30px;
-			text-align: center;
-		}
-		.header {
-			font-size: 30px;
-			font-weight: bold;
-			margin-bottom: 30px;
-		}
-		.input-field {
-			margin-bottom: 20px;
-			position: relative;
-		}
-		.input {
-			border: none;
-			border-bottom: 2px solid #ccc;
-			font-size: 16px;
-			padding: 10px;
-			width: 100%;
-			outline: none;
-		}
-		.input:focus {
-			border-bottom-color: #007bff;
-		}
-		.label {
-			color: #777;
-			font-size: 16px;
-			font-weight: normal;
-			position: absolute;
-			top: 10px;
-			left: 10px;
-			transition: all 0.2s ease;
-		}
-		.input:focus + .label,
-		.input:not(:placeholder-shown) + .label {
-			color: #007bff;
-			font-size: 14px;
-			top: -15px;
-			left: 0;
-		}
-		.submit {
-			background-color: #007bff;
-			border: none;
-			border-radius: 20px;
-			color: #fff;
-			font-size: 16px;
-			padding: 10px 20px;
-			transition: all 0.2s ease;
-			width: 100%;
-		}
-		.submit:hover {
-			background-color: #0069d9;
-			cursor: pointer;
-		}
-	</style>
-    <style>
-        body {
-          font-family: "Libre Baskerville", serif;
-          color: black;
-        }
-        h1 {
-          font-size: 3em;
-        }
-      </style>
+    </style>
 </head>
 <body>
-    <div class="container-fluid main">
+    <div class="container main">
         <div class="row">
             <div class="col-md-6 side-image">
                 <div class="text">
@@ -101,19 +30,19 @@
             </div>
             <form class="col-md-6 right">
                 <div class="input-box">
-                    <header>Iniciar Sesión</header>
+                    <header class="header">Iniciar Sesión</header>
                     <div class="input-field">
-                        <input type="text" class="input" id="carnet" required autocomplete="off">
-                        <label for="carnet">Carnet</label>
+						<input type="text" class="input form-control" id="carnet" required autocomplete="off">
+                        <label for="carnet" class="label">Carnet</label>
                     </div>
                     <div class="input-field">
-                        <input type="password" class="input" id="password" required autocomplete="off">
-                        <label for="password">Contraseña</label>
+                        <input type="password" class="input form-control" id="password" required autocomplete="off">
+                        <label for="password" class="label">Contraseña</label>
                     </div>
                     <div class="input-field">
-                        <input type="submit" class="submit" value="Entrar">
+                        <input type="submit" class="submit btn btn-primary" value="Entrar">
                     </div>
-                </div>
+                </div> 
             </form>
         </div>
     </div>
