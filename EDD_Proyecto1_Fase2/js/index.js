@@ -60,7 +60,7 @@ function resetearEst() {
 }
 
 function agregarPermiso() {
-    let folderName = $('#folderName').val();
+    let folderName = $('#path').val();
     let carnetEstudiante = (selectEstudiantes.options[selectEstudiantes.selectedIndex]).text;
     let arch = (selectArchivos.options[selectArchivos.selectedIndex]).text;
     let permiso = (selectPermisos.options[selectPermisos.selectedIndex]).text;
@@ -79,16 +79,11 @@ function agregarPermiso() {
         listaAcciones.push(data);
         alumnosSistema[act.num].acciones = listaAcciones;
         permisosEst = alumnosSistema[act.num].compartidos;
-        permisosGeneral=JSON.parse(localStorage.getItem("permisos"));
         let permisoNuevo = new Permiso(alumnosSistema[act.num].carnet, carnetEstudiante, folderName, archivo, permiso);
-        console.log(permisoNuevo)
         permisosGeneral.push(permisoNuevo)
         permisosEst.push(permisoNuevo)
-        console.log("2")
         localStorage.setItem("permisos", JSON.stringify(permisosGeneral))
         alumnosSistema[act.num].compartidos=permisosEst;
-        console.log(permisosEst)
-        console.log(permisosGeneral)
         for(let i=0; i<alumnosSistema.length; i++){
             console.log(alumnosSistema[i].carnet.toString())
             console.log(carnetEstudiante)
@@ -138,16 +133,10 @@ function rellenarSelects() {
         console.log("nada")
     } else {
         documentos.forEach((documento) => {
-            if (documento.endsWith(".png") ||
-                documento.endsWith(".jpg") ||
-                documento.endsWith(".jpeg")) {
-                console.log("nada")
-            } else {
-                const option = document.createElement("option");
-                option.value = documento;
-                option.textContent = documento;
-                archivoSelect.appendChild(option);
-            }
+            const option = document.createElement("option");
+            option.value = documento;
+            option.textContent = documento;
+            archivoSelect.appendChild(option);
         });
     }
 
@@ -288,7 +277,6 @@ window.onload = function () {
         grafo = new TreeCarpe();
         tabla = new HashTable();
         documentos = [];
-        permisosGeneral=JSON.parse(localStorage.getItem("permisos"));
         if (alumnosSistema != null && alumnosSistema[act.num].arbolCarpeta != null) {
             tree.root = alumnosSistema[act.num].arbolCarpeta.root;
             userData.root = alumnosSistema[act.num].expArchivos.root;
@@ -356,21 +344,7 @@ function loginVerificar() {
         localStorage.setItem("actual", JSON.stringify(actual))
         cambiar_pagina_admin();
         a = 1;
-        if(permisosGeneral.length>0){
-            $('#tabla-permisos tbody').html(
-                permisosGeneral.map((item, index) => {
-                    return (`
-                        <tr class="bg-light text-dark">
-                            <th>${item.propietario}</th>
-                            <td>${item.destino}</td>
-                            <td>${item.ubicacion}</td>
-                            <td>${item.archivo}</td>
-                            <td>${item.permisos}</td>
-                        </tr>
-                    `);
-                }).join('')
-            ) 
-        }
+  
     }
     let studentsLocalStorage = JSON.parse(localStorage.getItem("alumnosSistema"));
     for (let i = 0; i < studentsLocalStorage.length; i++) {
@@ -397,7 +371,23 @@ function loginVerificar() {
         alert("Usuario y contraseña incorrecta!");
     }
 }
-
+function dataPerms(){
+    let perms=[]
+    perms=localStorage.getItem("permisos")  
+    console.log(pr)
+    let cont="";
+    for(let i=0;i>perms.length; i++){
+        cont=cont+`<tr class="bg-light text-dark">
+        <th>${perms[i].propietario}</th>
+        <td>${perms[i].destino}</td>
+        <td>${perms[i].ubicacion}</td>
+        <td>${perms[i].archivo}</td>
+        <td>${perms[i].permisos}</td>
+        </tr> `               
+    }
+    console.log(cont)
+    return cont;
+}
 function salirAlum() {
     let act = JSON.parse(localStorage.getItem("actual"));
     listaAcciones = alumnosSistema[act.num].acciones;
@@ -428,7 +418,6 @@ function loadStudentsForm(e) {
     const formData = new FormData(e.target);
     const form = Object.fromEntries(formData);
     let studentsArray = [];
-    let permisosGenerals=[]
     try {
         let fr = new FileReader();
         fr.readAsText(form.inputFile);
@@ -445,13 +434,13 @@ function loadStudentsForm(e) {
                     `);
                 }).join('')
             )
+            let per=[]
             for (let i = 0; i < studentsArray.length; i++) {
                 let nuevo = new Estudiante(studentsArray[i].carnet, studentsArray[i].nombre, studentsArray[i].password, null, null, null, null, null,null)
                 avlTree.insert(nuevo)
                 alumnosSistema.push(nuevo)
             }
-            console.log(alumnosSistema.length)
-            localStorage.setItem("permisos", JSON.stringify(permisosGenerals))
+            localStorage.setItem("permisos", JSON.stringify(per))
             localStorage.setItem("avlTree", JSON.stringify(avlTree))
             
             localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema))
@@ -465,23 +454,36 @@ function loadStudentsForm(e) {
 
 function showLocalStudents() {
     try {
-        
         let temp = localStorage.getItem("avlTree")
-        console.log(temp)
         let temp2 = localStorage.getItem("hash")
-        console.log(temp2)
         avlTree = new AvlTree;
         tabla = new HashTable;
         alumnosSistema = [];
         listaAcciones = [];
+        permisosGeneral=[]
         if (temp !== null) {
             avlTree.root = JSON.parse(temp).root;
             tabla.table = JSON.parse(temp2).table;
             alumnosSistema = JSON.parse(localStorage.getItem("alumnosSistema"));
-            permisosGeneral = localStorage.getItem("permisos");
+            permisosGeneral=JSON.parse(localStorage.getItem("permisos"));
             $('#studentsTable tbody').html(
                 avlTree.inOrder()
-            )
+            )      
+            let cont=""
+            console.log(permisosGeneral)
+            for(let i=0;i<permisosGeneral.length; i++){
+                cont=cont+`<tr class="bg-light text-dark">
+                <th>${permisosGeneral[i].propietario}</th>
+                <td>${permisosGeneral[i].destino}</td>
+                <td>${permisosGeneral[i].ubicacion}</td>
+                <td>${permisosGeneral[i].archivo}</td>
+                <td>${permisosGeneral[i].permisos}</td>
+                </tr> `               
+            }
+            console.log(cont)
+            $('#tabla-permisos tbody').html(
+                cont
+            ) 
         } else {
             console.log("avlTree no está inicializado");
         }
