@@ -75,6 +75,7 @@ function agregarPermiso() {
         
         let act = JSON.parse(localStorage.getItem("actual"));
         listaAcciones = alumnosSistema[act.num].acciones;
+        archivosUsers=[]
         let data = `Se otorgo pemiso del archivo ${archivo} al estudiante ${carnetEstudiante}.\\n Fecha:${(new Date()).toLocaleDateString()}\\n Hora:${(new Date()).toLocaleTimeString()}\\n`;
         listaAcciones.push(data);
         alumnosSistema[act.num].acciones = listaAcciones;
@@ -88,10 +89,9 @@ function agregarPermiso() {
             console.log(alumnosSistema[i].carnet.toString())
             console.log(carnetEstudiante)
             if(alumnosSistema[i].carnet.toString()===carnetEstudiante){
-                archivosUsers=alumnosSistema[i].archivosUsers
+                archivosUsers=alumnosSistema[i].archivosUsers;
                 archivosUsers.push(permisoNuevo)
-                alumnosSistema[i].archivosUsers=archivosUsers
-                console.log(archivosUsers)
+                alumnosSistema[i].archivosUsers=archivosUsers;
                 break;
             }
         }
@@ -108,6 +108,7 @@ function agregarPermiso() {
                 `);
             }).join('')
         )
+        
     } catch (error) {
         console.log(error);
         alert("No se incluyo en permisos en la matriz")
@@ -277,7 +278,7 @@ window.onload = function () {
         grafo = new TreeCarpe();
         tabla = new HashTable();
         documentos = [];
-        if (alumnosSistema != null && alumnosSistema[act.num].arbolCarpeta != null) {
+        if (alumnosSistema != null && alumnosSistema[act.num].arbolCarpeta != null && alumnosSistema[act.num].expArchivos != null) {
             tree.root = alumnosSistema[act.num].arbolCarpeta.root;
             userData.root = alumnosSistema[act.num].expArchivos.root;
             documentos = alumnosSistema[act.num].archivos;
@@ -303,7 +304,7 @@ window.onload = function () {
                 personales.map((item, index) => {
                     return (`
                         <tr class="bg-light text-dark">
-                            <th>${item.destino}</th>
+                            <th>${item.propietario}</th>
                             <td>${item.archivo}</td>
                             <td>${item.permisos}</td>
                         </tr>
@@ -319,7 +320,20 @@ window.onload = function () {
             alumnosSistema[act.num].acciones = listaAcciones;
             alumnosSistema[act.num].capetasDir = grafo;
             alumnosSistema[act.num].compartidos = permisosEst;
-            alumnosSistema[act.num].archivosUsers = personales;
+            personales=alumnosSistema[act.num].archivosUsers;
+            if(personales!=null){
+                $('#tabla-compartidos-com tbody').html(
+                    personales.map((item, index) => {
+                        return (`
+                            <tr class="bg-light text-dark">
+                                <th>${item.propietario}</th>
+                                <td>${item.archivo}</td>
+                                <td>${item.permisos}</td>
+                            </tr>
+                        `);
+                    }).join('')
+                )
+            } 
             localStorage.setItem("alumnosSistema", JSON.stringify(alumnosSistema))
         }
         rellenarSelects();
