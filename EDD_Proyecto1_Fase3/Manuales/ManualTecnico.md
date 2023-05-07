@@ -12,4 +12,8 @@ En cuanto al almacenamiento de usuarios, se utilizará una Tabla Hash. Inicialme
 Para garantizar la seguridad e integridad de los mensajes entre usuarios, se implementará el sistema de Blockchain. En este sistema, los mensajes se almacenarán en una estructura similar a una lista doblemente enlazada de nodos. Cada bloque del Blockchain tendrá los siguientes atributos: índice, marca de tiempo, emisor, receptor, mensaje, hash anterior y hash. El índice representa el número del bloque, comenzando con el bloque génesis (índice 0) y aumentando secuencialmente. La marca de tiempo registra la fecha y hora exactas de creación del bloque. El emisor y receptor del mensaje se identificarán utilizando el carnet correspondiente. El mensaje se encriptará utilizando el algoritmo AES. El hash anterior se utilizará para verificar la integridad de la cadena de bloques, y en el caso del bloque génesis, el hash anterior será "0000". 
 
 ### Implemetaciones en codigo y estructuras
+![img1](./img/hash.JPG)
+![img2](./img/tree.JPG)
+![img3](./img/permisos.JPG)
+![img4](./img/per2.JPG)
 
