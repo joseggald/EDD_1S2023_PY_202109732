@@ -1,5 +1,5 @@
 
-class Nodo {
+class NodosC {
     constructor(accion) {
         this.accion = accion;
         this.siguiente = null;
@@ -13,9 +13,9 @@ class ListaCircular{
     }
 
     insertar(accion){
-        const nodo = new Nodo(accion);
+        const nodo = new NodosC(accion);
         if (!this.cabeza) {
-            this.cabeza = nodo;
+             this.cabeza = nodo;
         }else{
             let current = this.cabeza;
             while (current.siguiente) {

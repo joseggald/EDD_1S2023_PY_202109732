@@ -23,7 +23,19 @@ class AvlNode{
     constructor(){
         this.root = null;
     }
-    
+    inOrderAvl() {
+      const result = [];
+      this.#inOrderRecursiveAvl(this.root, result);
+      return result;
+    } 
+  
+    #inOrderRecursiveAvl(current, result) {
+        if (current !== null) {
+          this.#inOrderRecursiveAvl(current.left, result);
+          result.push(current.item);
+          this.#inOrderRecursiveAvl(current.right, result);
+        }
+    }
     insert(item){
         this.root = this.#insertRecursive(item, this.root);
     }
