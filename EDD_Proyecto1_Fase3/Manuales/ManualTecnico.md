@@ -16,4 +16,9 @@ Para garantizar la seguridad e integridad de los mensajes entre usuarios, se imp
 ![img2](./img/tree.JPG)
 ![img3](./img/permisos.JPG)
 ![img4](./img/per2.JPG)
+<<<<<<< HEAD
 ![img5](./img/contra.JPG)
+=======
+![img4](./img/contra.JPG)
+
+>>>>>>> d8c1d90d26637204d4c4de3ea7698318fd23cc97
